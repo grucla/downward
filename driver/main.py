@@ -32,6 +32,7 @@ def main():
     print()
 
     exitcode = None
+    (exitcode, continue_execution) = run_components.run_negnix(args)
     for component in args.components:
         if component == "translate":
             (exitcode, continue_execution) = run_components.run_translate(args)

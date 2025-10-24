@@ -64,6 +64,18 @@ def report_version(build: str):
         print(f"Cannot determine git revision of search binary. {err}")
 
 
+def run_negnix(args):
+    import negnix
+    logging.info("Running negnix.")
+    cmd = ["negnix", args.translate_inputs[0]]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    (stdout, stderr) = p.communicate()
+    with open("domain-negnix.pddl", "w") as f:
+        f.write(stdout)
+    args.translate_inputs[0] = "domain-negnix.pddl"
+    return stderr, p.returncode
+
+
 def run_translate(args):
     logging.info("Running translator.")
     time_limit = limits.get_time_limit(
